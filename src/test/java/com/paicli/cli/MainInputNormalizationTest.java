@@ -76,16 +76,44 @@ class MainInputNormalizationTest {
     void startupBannerUsesOpenLayoutWithoutRightBorder() {
         List<String> lines = Main.startupBannerLines();
 
-        assertTrue(lines.stream().anyMatch(line -> line.contains("PaiCLI")));
-        assertTrue(lines.stream().anyMatch(line -> line.contains("π")));
-        assertTrue(lines.stream().anyMatch(line -> line.contains("v16.1.0")));
-        assertTrue(lines.stream().anyMatch(line -> line.contains("████████")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("OpsPilot")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("研发运维智能体")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("v1.0-SNAPSHOT")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("[OP]")));
+        assertTrue(lines.stream().noneMatch(line -> line.contains("PaiCLI") || line.contains("π")));
         assertTrue(lines.stream().anyMatch(line -> line.contains("Tips for getting started")));
         assertTrue(lines.stream().anyMatch(line -> line.contains("@path")));
         assertTrue(lines.stream().noneMatch(line -> line.contains("for shortcuts")));
         assertTrue(lines.stream().noneMatch(line -> line.contains("────────────────")));
         assertTrue(lines.stream().noneMatch(line -> line.endsWith("║")),
                 "banner should not depend on a padded right border");
+    }
+
+    @Test
+    void metadataFlagsReturnWithoutInteractiveStartup() {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true, StandardCharsets.UTF_8);
+        assertTrue(Main.printCommandLineInfo(new String[]{"--version"}, out));
+        assertEquals("OpsPilot v1.0-SNAPSHOT", bytes.toString(StandardCharsets.UTF_8).strip());
+        for (String flag : List.of("--help", "-h")) {
+            bytes.reset();
+            assertTrue(Main.printCommandLineInfo(new String[]{flag}, out));
+            String text = bytes.toString(StandardCharsets.UTF_8);
+            assertTrue(text.contains("OpsPilot"));
+            assertTrue(text.contains("target/opspilot-1.0-SNAPSHOT.jar"));
+            assertTrue(text.contains("/mcp"));
+        }
+        assertFalse(Main.printCommandLineInfo(new String[]{}, out));
+        assertFalse(Main.printCommandLineInfo(null, out));
+        assertFalse(Main.printCommandLineInfo(new String[]{"wechat", "--help"}, out));
+        assertFalse(Main.printCommandLineInfo(new String[]{"serve", "--http"}, out));
+    }
+
+    @Test
+    void exitCommandDescriptionsUseOpsPilotName() {
+        assertTrue(Main.slashCommandHints().stream()
+                .filter(hint -> hint.insertText().equals("/exit") || hint.insertText().equals("/quit"))
+                .allMatch(hint -> hint.description().equals("退出 OpsPilot")));
     }
 
     @Test
@@ -268,6 +296,7 @@ class MainInputNormalizationTest {
 
         String markdown = Main.renderConversationExport(history, LocalDateTime.of(2026, 6, 10, 14, 17));
 
+        assertTrue(markdown.startsWith("# OpsPilot 会话导出"), markdown);
         assertTrue(markdown.contains("## System"), markdown);
         assertTrue(markdown.contains("system prompt"), markdown);
         assertFalse(markdown.contains("System prompt 已省略"), markdown);

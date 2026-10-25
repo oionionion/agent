@@ -109,7 +109,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 /**
- * PaiCLI v16.1.0 - Terminal-First Agent IDE
+ * OpsPilot - Terminal agent for development and research workflows
  * 支持 ReAct、Plan-and-Execute、Memory、RAG、Multi-Agent、HITL、并行工具调用、多模型切换、MCP、CDP 会话复用
  * 第 15 期新增：Skill 系统（三层加载 + load_skill 工具 + 同轮正文注入）、内置 web-access skill
  * 第 16 期新增：TUI 界面（Lanterna 3）、文件树浏览、代码高亮、对话历史可视化、配置管理面板
@@ -120,7 +120,7 @@ import java.util.regex.Pattern;
  * HITL 增强：路径围栏（PathGuard）、命令快速拒绝（CommandGuard）、操作审计链（AuditLog）—— 见 com.paicli.policy
  */
 public class Main {
-    private static final String VERSION = "16.1.0";
+    private static final String VERSION = "1.0-SNAPSHOT";
     private static final String ENV_FILE = ".env";
     private static final String LOG_DIR_PROPERTY = "paicli.log.dir";
     private static final String LOG_LEVEL_PROPERTY = "paicli.log.level";
@@ -214,7 +214,29 @@ public class Main {
     ) {
     }
 
+    /** Display metadata before configuration loading or external connections. */
+    static boolean printCommandLineInfo(String[] args, PrintStream out) {
+        if (args == null || args.length != 1) {
+            return false;
+        }
+        if ("--version".equals(args[0])) {
+            out.println("OpsPilot v" + VERSION);
+            return true;
+        }
+        if ("--help".equals(args[0]) || "-h".equals(args[0])) {
+            out.println("OpsPilot — 研发运维智能体");
+            out.println("Usage: java -jar target/opspilot-1.0-SNAPSHOT.jar [--help | --version]");
+            out.println("Start without arguments for interactive coding and research tasks.");
+            out.println("Commands: /plan, /mode, /mcp, /memory, /context, /export, /exit");
+            return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
+        if (printCommandLineInfo(args, System.out)) {
+            return;
+        }
         configureAwtForCli();
         if (WechatCommandMain.isWechatCommand(args)) {
             configureLogging();
@@ -1070,7 +1092,7 @@ public class Main {
                 store.close();
             }, "paicli-runtime-api-shutdown"));
             server.start();
-            System.out.println("[完成] PaiCLI Runtime API 已启动: http://127.0.0.1:" + server.port());
+            System.out.println("[完成] OpsPilot Runtime API 已启动: http://127.0.0.1:" + server.port());
             System.out.println("   认证: Authorization: Bearer <PAICLI_RUNTIME_API_KEY>");
             new CountDownLatch(1).await();
         } catch (InterruptedException e) {
@@ -1335,7 +1357,7 @@ public class Main {
             return thread;
         });
         Future<String> future = executor.submit(task);
-        // 进入 raw mode 监听 ESC：raw mode 关 ICANON / ECHO / IEXTEN 但保留 ISIG，所以 Ctrl+C 仍能终止 PaiCLI。
+        // 进入 raw mode 监听 ESC：raw mode 关 ICANON / ECHO / IEXTEN 但保留 ISIG，所以 Ctrl+C 仍能终止 OpsPilot。
         Attributes original = null;
         try {
             if (terminal != null) {
@@ -1891,8 +1913,8 @@ public class Main {
                 new SlashCommandHint("/export", "/export", "导出当前会话对话记录为 Markdown"),
                 new SlashCommandHint("/resume", "/resume", "列出当前项目可以恢复的历史会话"),
                 new SlashCommandHint("/resume ", "/resume <序号>", "恢复一次历史会话，接着之前的对话继续"),
-                new SlashCommandHint("/exit", "/exit", "退出 PaiCLI"),
-                new SlashCommandHint("/quit", "/quit", "退出 PaiCLI")
+                new SlashCommandHint("/exit", "/exit", "退出 OpsPilot"),
+                new SlashCommandHint("/quit", "/quit", "退出 OpsPilot")
         );
     }
 
@@ -2403,7 +2425,7 @@ public class Main {
 
     static String renderConversationExport(List<LlmClient.Message> history, LocalDateTime exportedAt) {
         StringBuilder md = new StringBuilder();
-        md.append("# PaiCLI 会话导出\n\n");
+        md.append("# OpsPilot 会话导出\n\n");
         md.append("**导出时间**: ").append(exportedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))).append("\n\n");
         md.append("---\n\n");
 
@@ -3218,14 +3240,14 @@ public class Main {
                 ? "0 skills"
                 : info.skillsEnabled() + "/" + info.skillsTotal() + " skills";
         String ready = "Model " + model + " (" + provider + ")";
-        String capabilities = "ReAct · Plan · MCP · Browser · Image · Tools · Memory · RAG";
+        String capabilities = "ReAct · Plan · Tools · Memory · MCP";
         String state = mcp + " · " + skills + " · ReAct";
         List<String> lines = new ArrayList<>(List.of(
-                "   " + AnsiStyle.section("██████████") + "    " + AnsiStyle.emphasis("PaiCLI") + " " + AnsiStyle.section("π") + "  " + AnsiStyle.subtle("v" + VERSION),
-                "   " + AnsiStyle.section("  ██  ██") + "    " + AnsiStyle.subtle(ready),
-                "   " + AnsiStyle.section("  ██  ██") + "    " + AnsiStyle.subtle(state),
-                "   " + AnsiStyle.section("  ██  ██") + "    " + AnsiStyle.subtle(capabilities),
-                "   " + AnsiStyle.section("  ██  ██"),
+                "   " + AnsiStyle.section("[OP]") + "    " + AnsiStyle.emphasis("OpsPilot") + "  " + AnsiStyle.subtle("v" + VERSION),
+                "           " + AnsiStyle.subtle("研发运维智能体 · Coding & Research"),
+                "           " + AnsiStyle.subtle(ready),
+                "           " + AnsiStyle.subtle(state),
+                "           " + AnsiStyle.subtle(capabilities),
                 "",
                 "Tips for getting started:",
                 "1. Type " + AnsiStyle.emphasis("/") + " for commands and Tab completion",

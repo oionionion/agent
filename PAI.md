@@ -8,7 +8,7 @@
 
 ## What This Is
 
-PaiCLI 是面向商业使用的 Java Agent CLI 产品，对标 Claude Code；当前主路径是 ReAct、Plan-and-Execute、Multi-Agent 三套执行模式。
+OpsPilot 是面向研发与科研任务的 Java 终端智能体，围绕代码修改、脚本执行、日志排查与构建验证组织受控任务；现有主路径为 ReAct、Plan-and-Execute、Multi-Agent。内网部署需要另行验证模型、工具和数据访问边界。
 
 ## Architecture
 

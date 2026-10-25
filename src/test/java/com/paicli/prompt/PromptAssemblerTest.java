@@ -158,6 +158,14 @@ class PromptAssemblerTest {
     }
 
     @Test
+    void defaultIdentityUsesOpsPilotWithoutRenamingConfiguration() {
+        String prompt = PromptAssembler.createDefault().assemble(PromptMode.AGENT, PromptContext.empty());
+        assertTrue(prompt.contains("你是 OpsPilot"));
+        assertFalse(prompt.contains("你是 PaiCLI"));
+        assertTrue(prompt.contains(".paicli/tool-outputs/"));
+    }
+
+    @Test
     void omitsToolInstructionsWhenToolsAreDisabled() {
         PromptAssembler assembler = PromptAssembler.createDefault();
 
@@ -167,7 +175,7 @@ class PromptAssemblerTest {
 
         assertTrue(prompt.contains("## Language"));
         assertTrue(prompt.contains("## Tool Availability"));
-        assertTrue(prompt.contains("当前模型不支持 PaiCLI 原生工具调用"));
+        assertTrue(prompt.contains("当前模型不支持 OpsPilot 原生工具调用"));
         assertTrue(prompt.contains("绝对不要输出伪造的工具标签"));
         assertTrue(prompt.contains("<toolcall>"));
         assertFalse(prompt.contains("## Tools"));

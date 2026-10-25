@@ -79,8 +79,8 @@ public final class WechatCommandMain {
     private static int start() {
         WechatAccountStore store = WechatAccountStore.createDefault();
         WechatAccount account = store.loadLatest()
-                .orElseThrow(() -> new IllegalStateException("未找到微信账号，请先执行 paicli wechat setup"));
-        System.out.println("PaiCLI 微信通道启动中，账号: " + account.accountId());
+                .orElseThrow(() -> new IllegalStateException("未找到微信账号，请先执行 java -jar target/opspilot-1.0-SNAPSHOT.jar wechat setup"));
+        System.out.println("OpsPilot 微信通道启动中，账号: " + account.accountId());
         new WechatMessageLoop(new IlinkClient(), store, account).run();
         return 0;
     }
@@ -89,7 +89,7 @@ public final class WechatCommandMain {
         WechatAccountStore store = WechatAccountStore.createDefault();
         Optional<WechatAccount> account = store.loadLatest();
         if (account.isEmpty()) {
-            System.out.println("微信通道未绑定。执行 `paicli wechat setup` 开始绑定。");
+            System.out.println("微信通道未绑定。执行 `java -jar target/opspilot-1.0-SNAPSHOT.jar wechat setup` 开始绑定。");
             return 0;
         }
         System.out.println("微信通道已绑定");
@@ -213,17 +213,16 @@ public final class WechatCommandMain {
 
     private static void printHelp() {
         System.out.println("""
-                PaiCLI 微信通道：
-                  paicli wechat setup
-                  paicli wechat start
-                  paicli wechat status
-                  paicli wechat daemon start|stop|restart|status|logs
+                OpsPilot 微信通道：
+                  java -jar target/opspilot-1.0-SNAPSHOT.jar wechat setup
+                  java -jar target/opspilot-1.0-SNAPSHOT.jar wechat start
+                  java -jar target/opspilot-1.0-SNAPSHOT.jar wechat status
+                  java -jar target/opspilot-1.0-SNAPSHOT.jar wechat daemon start|stop|restart|status|logs
                 """.trim());
     }
 
     private static void printStartHint() {
-        System.out.println("启动: java -jar target/paicli-1.0-SNAPSHOT.jar wechat start");
-        System.out.println("如果已安装全局命令，也可以执行: paicli wechat start");
+        System.out.println("启动: java -jar target/opspilot-1.0-SNAPSHOT.jar wechat start");
     }
 
     private static String mask(String value) {

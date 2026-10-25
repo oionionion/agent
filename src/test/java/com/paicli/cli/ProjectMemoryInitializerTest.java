@@ -32,6 +32,17 @@ class ProjectMemoryInitializerTest {
     }
 
     @Test
+    void generatesOpsPilotMemoryAndRetainsLegacyRuleFilename() throws Exception {
+        Files.writeString(tempDir.resolve("README.md"), "# OpsPilot — 研发运维智能体\n");
+        Files.writeString(tempDir.resolve("pom.xml"), "<project></project>");
+        assertTrue(ProjectMemoryInitializer.initialize(tempDir, false).written());
+        String content = Files.readString(tempDir.resolve("PAI.md"));
+        assertTrue(content.contains("OpsPilot 是面向研发与科研任务的 Java 终端智能体"));
+        assertTrue(content.contains("mvn test -Pquick"));
+        assertFalse(content.contains("PaiCLI 是"));
+    }
+
+    @Test
     void doesNotOverwriteExistingFileWithoutForce() throws Exception {
         Files.writeString(tempDir.resolve("PAI.md"), "existing");
 

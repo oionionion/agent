@@ -1,6 +1,6 @@
 # AGENTS.md
 
-AI 编码助手进入 PaiCLI 仓库时先读这个文件：Codex 直接读取，Claude Code 通过 `CLAUDE.md` 里的 `@AGENTS.md` 导入。这里只放每次改动都要遵守的规则；实现细节写在 `docs/agents-reference.md`，评测历史写在 `benchmarks/paicli-native-agentbench-v0.1/AGENTS-SNAPSHOT-ARCHIVE.md`。本文件控制在 200 行以内，新内容优先写进那两个文件。
+AI 编码助手进入 OpsPilot 仓库时先读这个文件：Codex 直接读取，Claude Code 通过 `CLAUDE.md` 里的 `@AGENTS.md` 导入。这里只放每次改动都要遵守的规则；实现细节写在 `docs/agents-reference.md`，评测历史写在 `benchmarks/paicli-native-agentbench-v0.1/AGENTS-SNAPSHOT-ARCHIVE.md`。本文件控制在 200 行以内，新内容优先写进那两个文件。
 
 写文档和回复用户都用大白话：类名、内部叫法、英文术语第一次出现时说明它是什么；不要生造“账本”“合同”“门禁”这类让人看不懂的叫法。
 
@@ -10,8 +10,8 @@ AI 编码助手进入 PaiCLI 仓库时先读这个文件：Codex 直接读取，
 
 ## 项目概况
 
-- 面向商业使用的 Java Agent 命令行工具，对标 Claude Code。已交付 23 期：ReAct → Plan+DAG → Memory → RAG → Multi-Agent → HITL → 并行工具 → 多模型 → 联网 → MCP → 长上下文 → Chrome DevTools → CDP 复用 → Skill → TUI → LSP 诊断 → Side-Git 快照 → Prompt 分层 → Runtime API → 图片输入 → 微信 iLink 文本消息（最小可用版）
-- 启动画面显示的版本是 `v16.1.0`，Maven 打出的 jar 是 `paicli-1.0-SNAPSHOT.jar`，两者不一致是正常的
+- OpsPilot 是面向研发与科研任务的 Java 终端智能体；当前为外部品牌改造，内部包名/类名与配置保持兼容。原有功能演进：ReAct → Plan+DAG → Memory → RAG → Multi-Agent → HITL → 并行工具 → 多模型 → 联网 → MCP → 长上下文 → Chrome DevTools → CDP 复用 → Skill → TUI → LSP 诊断 → Side-Git 快照 → Prompt 分层 → Runtime API → 图片输入 → 微信 iLink 文本消息（最小可用版）
+- 启动显示 `OpsPilot v1.0-SNAPSHOT`，产物为 `opspilot-1.0-SNAPSHOT.jar`；内部保留 `com.paicli`、`PAICLI_*`、`paicli.*`、`.paicli` 和 `PAI.md`，不机械替换。迁移说明见 `docs/opspilot-branding.md`，原始说明见 `docs/reference/upstream-readme.md`。
 - `PAI.md` 是项目级记忆，启动时放进 system prompt，写团队共享、长期不变的规则；个人的、会变化的事实用 `/save` 存成长期记忆
 - 下一步：MCP 的 OAuth 登录、sampling。面试题对齐升级（`docs/interview-upgrade-plan.md`）已全部完成，里面记着各项的取舍和实测数据
 - 配套教程和面试文章以 `docs/articles/` 为准，改完用 `tools/sync-articles-to-javabetter.sh` 同步到 javabetter.cn 的副本
@@ -32,8 +32,8 @@ AI 编码助手进入 PaiCLI 仓库时先读这个文件：Codex 直接读取，
 ```bash
 cp .env.example .env
 mvn clean package                           # 默认跳过测试（pom 中 skipTests=true）
-java -jar target/paicli-1.0-SNAPSHOT.jar
-java -jar target/paicli-1.0-SNAPSHOT.jar wechat setup|start
+java -jar target/opspilot-1.0-SNAPSHOT.jar
+java -jar target/opspilot-1.0-SNAPSHOT.jar wechat setup|start
 mvn test -Pquick                            # 常规回归
 mvn test -Pphase16-smoke                    # TUI 相关
 mvn test -Dtest=XxxTest -DskipTests=false   # 针对性（必须带 -DskipTests=false）

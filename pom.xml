@@ -6,12 +6,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.paicli</groupId>
-    <artifactId>paicli</artifactId>
+    <artifactId>opspilot</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>PaiCLI</name>
-    <description>A simple Java Agent CLI like Claude Code</description>
+    <name>OpsPilot</name>
+    <description>Terminal agent for controlled development and research workflows</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

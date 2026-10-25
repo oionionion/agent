@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-25",
+  "timezone": "Asia/Shanghai",
+  "environment": {
+    "jdk": "Windows Microsoft OpenJDK 17.0.15",
+    "maven": "3.9.9",
+    "invocation": "Windows JVM from WSL, offline cached dependencies"
+  },
+  "baseline_commit": "6b823bebac74d2e558bbabe16ac973f3e5fb4def",
+  "baseline_tag": "backup/pre-opspilot-surface-2026-10-25",
+  "focused": {
+    "command": "mvn -o test -DskipTests=false -Dtest=MainInputNormalizationTest,CliCommandParserTest,ProjectMemoryInitializerTest,PromptAssemblerTest,SkillBuiltinExtractorTest,PlainRendererTest,LanternaRendererTest",
+    "before": {
+      "tests": 127,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "after": {
+      "tests": 131,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "additional": {
+    "command": "mvn -o test -DskipTests=false -Dtest=BrowserGuardTest,PaiCliCompleterTest",
+    "after": {
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "ui_smoke": {
+    "command": "mvn -o test -Pphase16-smoke -DskipTests=false",
+    "before": {
+      "tests": 140,
+      "failures": 2,
+      "errors": 1,
+      "skipped": 0
+    },
+    "after": {
+      "tests": 142,
+      "failures": 2,
+      "errors": 1,
+      "skipped": 0
+    },
+    "identical_failure_list": true,
+    "failures": [
+      {
+        "class": "com.paicli.render.inline.InlineRendererTest",
+        "method": "streamUsesPrintAboveWhenLineReaderIsReading",
+        "kind": "failure"
+      },
+      {
+        "class": "com.paicli.render.inline.InlineRendererTest",
+        "method": "firstCodeBlockSharingLineWithAnswerMarkerStillFolds",
+        "kind": "failure"
+      },
+      {
+        "class": "com.paicli.render.inline.InlineRendererTest",
+        "method": "promptApprovalDelegatesToFallback",
+        "kind": "error"
+      }
+    ]
+  },
+  "package": {
+    "command": "mvn -o package -DskipTests",
+    "success": true,
+    "artifact": "opspilot-1.0-SNAPSHOT.jar",
+    "sha256": "206a43c07520f023723db5f4700eefa2bc0d4a0cd42a08fc58473f12e1d0043a"
+  },
+  "jar_smoke": {
+    "--version": {
+      "exit_code": 0,
+      "output": "OpsPilot v1.0-SNAPSHOT",
+      "no_config_files_created": true
+    },
+    "--help": {
+      "exit_code": 0,
+      "output": "OpsPilot — 研发运维智能体\nUsage: java -jar target/opspilot-1.0-SNAPSHOT.jar [--help | --version]\nStart without arguments for interactive coding and research tasks.\nCommands: /plan, /mode, /mcp, /memory, /context, /export, /exit",
+      "no_config_files_created": true
+    },
+    "interactive_start_exit": {
+      "exit_code": 0,
+      "isolated_home": true,
+      "dummy_credentials_only": true,
+      "configured_mcp_servers": 0,
+      "task_sent": false,
+      "banner": "OpsPilot v1.0-SNAPSHOT",
+      "stdout": "   [OP]    OpsPilot  v1.0-SNAPSHOT\n           研发运维智能体 · Coding & Research\n           Model hunyuan-smoke (hunyuan)\n           MCP not configured · 2/2 skills · ReAct\n           ReAct · Plan · Tools · Memory · MCP\n\nTips for getting started:\n1. Type / for commands and Tab completion\n2. Ask coding questions, edit code or run commands\n3. Attach context with @path or @image:\n\n[提示] 检测到 ~/.paicli/mcp.json 未配置 chrome-devtools，建议参考 README 添加浏览器 MCP server。\n\n> > /exit\n\n[退出] 再见!\n"
+    },
+    "wechat_help": {
+      "exit_code": 0,
+      "output": "OpsPilot 微信通道：\n  java -jar target/opspilot-1.0-SNAPSHOT.jar wechat setup\n  java -jar target/opspilot-1.0-SNAPSHOT.jar wechat start\n  java -jar target/opspilot-1.0-SNAPSHOT.jar wechat status\n  java -jar target/opspilot-1.0-SNAPSHOT.jar wechat daemon start|stop|restart|status|logs",
+      "external_service_called": false
+    }
+  },
+  "original_readme_archive": {
+    "byte_identical_to_baseline": true,
+    "sha256": "7e74c9c96637ababfc01fa18bdef6d4e36a4b26f974d878de8618fe756abffbb"
+  },
+  "limits": {
+    "real_model_called": false,
+    "external_mcp_started": false,
+    "real_browser_started": false,
+    "docker_or_native_agentbench_run": false,
+    "full_suite_pass_claimed": false,
+    "internal_network_deployment_verified": false
+  }
+}
