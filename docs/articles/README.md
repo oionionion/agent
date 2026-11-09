@@ -1,6 +1,7 @@
 # PaiCLI 教程与面试题
 
 > 2026-11-09：本地文章文件名统一为 `codecli-` 前缀；原文内容、作者署名及上游网站地址保留，当前启动命令以仓库根 README 为准。
+> 当前交互入口补充：`/tools` 查看实际注册的内置/MCP工具，`/mcp` 查看MCP最新状态；启动界面显示块状CC标识及服务状态。
 
 这里是 PaiCLI 配套文章的唯一源。javabetter.cn 上 `/sidebar/itwanger/paicli/` 下的页面是副本，改动先在这里完成，再用 `tools/sync-articles-to-javabetter.sh` 同步过去，线上 URL 保持不变。
 

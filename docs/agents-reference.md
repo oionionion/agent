@@ -288,7 +288,7 @@ stdio 的 stdout 按行处理：不是 JSON 的行（server 往 stdout 打的日
 - `PAICLI_TUI=true`（旧写法）→ 使用 lanterna，并提示该写法已废弃
 - `PAICLI_NO_STATUSBAR=true`：关闭底部状态栏
 - `NO_COLOR=1`：关闭 ANSI 颜色
-- 当前开屏 Banner 是不带右侧边框的简洁布局，免得 ANSI/CJK 字宽导致竖线对不齐
+- 开屏使用绿色块状 CC 标识与 CodeCLI 名称；宽终端左右排列、窄终端上下排列并按实际列宽折行，不加右侧边框。内置/MCP工具数从注册表读取，逐个显示MCP服务真实状态（启动中/就绪/禁用/待确认/失败），不把配置存在当就绪。`/tools`实时列出内置与已注册MCP工具，`/mcp`查看服务与日志入口；不改变工具策略或自动授权MCP。
 - InlineRenderer 用的是 JLine 4 的编辑能力，默认提示符是 `* `，右侧提示显示 `message / @path / @image`
 - BottomStatusBar 是由 JLine `Status` 管理的底部状态区：滚动区域和状态行位置由 JLine 负责，不再手写 `\n`、`moveUp`、`CLEAR_TO_EOS` 或绝对光标行号。状态区上层显示会话模式（`AUTO/PLAN/YOLO/ASK shift+tab to cycle`，没有模式时退回 HITL/YOLO）和 MCP/Skill 摘要，下层显示 model、phase、ctx、token、cost、elapsed 和 cwd。关键字段可以用 JLine `AttributedString` 做适度的彩色高亮，但纯文本格式和按列宽裁剪的逻辑要保持稳定。`ctx` 只表示当前仍会带进下一轮请求的上下文估算，`in/out/cache` 表示最近一次任务的调用统计。
 - `/clear` 清空当前 ReAct conversationHistory（含已注入的 Skill 正文）和对应的 Session Memory 预计算状态，并重建不含上一轮检索记忆的 system prompt；长期记忆条目保留，之后只按新的查询重新检索注入。

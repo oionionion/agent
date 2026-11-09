@@ -33,6 +33,7 @@ final class CliCommandParser {
         AUDIT_TAIL,
         SNAPSHOT,
         RESTORE_SNAPSHOT,
+        TOOLS_LIST,
         MCP_LIST,
         MCP_RESTART,
         MCP_LOGS,
@@ -223,6 +224,10 @@ final class CliCommandParser {
 
         if (trimmed.regionMatches(true, 0, "/graph ", 0, 7)) {
             return new ParsedCommand(CommandType.GRAPH_QUERY, trimmed.substring(7).trim());
+        }
+
+        if (trimmed.equalsIgnoreCase("/tools")) {
+            return new ParsedCommand(CommandType.TOOLS_LIST, null);
         }
 
         if (trimmed.equalsIgnoreCase("/context") || trimmed.equalsIgnoreCase("/ctx")) {

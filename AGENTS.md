@@ -40,7 +40,7 @@ mvn test -Dtest=XxxTest -DskipTests=false   # 针对性（必须带 -DskipTests=
 mvn test -DskipTests=false                  # 全量
 ```
 
-交互命令：`/plan`、`/team`、`/mode auto|plan|ask`（Shift+Tab 轮流切换）、`/hitl on|default`、`/save`、`/memory`、`/compact`、`/context`、`/init`、`/export`、`/resume`、`/better-harness`、`/wechat`。不认识的 `/xxx` 由命令行直接报“未知命令”，不交给模型处理。
+交互命令：`/tools`（查看实时注册工具）、`/plan`、`/team`、`/mode auto|plan|ask`（Shift+Tab 轮流切换）、`/hitl on|default`、`/save`、`/memory`、`/compact`、`/context`、`/init`、`/export`、`/resume`、`/better-harness`、`/wechat`。不认识的 `/xxx` 由命令行直接报“未知命令”，不交给模型处理。
 
 `mvn test -Pquick` 目前有一批原本就失败的测试：评测包（`eval.benchmark.*`）和 `TerminalMarkdownRendererTest`；`ToolRegistryTest.macSandboxAllowsDevelopmentRuntimesAndDevNull` 在较新的 macOS 上，JVM 在 Seatbelt 沙箱里会以 139 退出。判断有没有引入新问题，要对比改动前后失败的测试名单，不要只看失败总数。
 

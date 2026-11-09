@@ -80,7 +80,7 @@ class MainInputNormalizationTest {
         assertFalse(lines.stream().anyMatch(line -> line.contains("OpsPilot") || line.contains("PaiCLI")));
         assertTrue(lines.stream().anyMatch(line -> line.contains("本地代码助手")));
         assertTrue(lines.stream().anyMatch(line -> line.contains("v1.0-SNAPSHOT")));
-        assertTrue(lines.stream().anyMatch(line -> line.contains("[CC]")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("██████")));
         assertTrue(lines.stream().noneMatch(line -> line.contains("PaiCLI") || line.contains("π")));
         assertTrue(lines.stream().anyMatch(line -> line.contains("Tips for getting started")));
         assertTrue(lines.stream().anyMatch(line -> line.contains("@path")));
@@ -88,6 +88,79 @@ class MainInputNormalizationTest {
         assertTrue(lines.stream().noneMatch(line -> line.contains("────────────────")));
         assertTrue(lines.stream().noneMatch(line -> line.endsWith("║")),
                 "banner should not depend on a padded right border");
+    }
+
+    @Test
+    void startupShowsToolCountsAndRestoresCapabilityAndMcpEntrypoints() {
+        var info = new Main.StartupScreenInfo("test-model", "test", 1, 2, 3, 18,
+                List.of("  docs · stdio · 就绪 · 3 工具", "  browser · stdio · 启动中"), 2, 2, "");
+        String banner = String.join("\n", Main.startupBannerLines(info));
+
+        assertTrue(banner.contains("18 built-in · 3 MCP"), banner);
+        assertTrue(banner.contains("1/2 就绪 · 3 工具"), banner);
+        assertTrue(banner.contains("browser · stdio · 启动中"), banner);
+        assertTrue(banner.contains("Browser · Image · Memory · RAG"), banner);
+        assertTrue(banner.contains("/tools"), banner);
+        assertTrue(banner.contains("/mcp logs <name>"), banner);
+    }
+
+    @Test
+    void startupWrapsLongModelAndMcpNamesWithinNarrowTerminal() {
+        String previous = System.getProperty("paicli.render.columns");
+        try {
+            System.setProperty("paicli.render.columns", "40");
+            var info = new Main.StartupScreenInfo("model-with-a-long-but-complete-id", "test", 0, 1, 0, 18,
+                    List.of("  project-browser-tools · stdio · 待确认（/mcp trust project-browser-tools）"),
+                    2, 2, "配置存在不等于服务已经连接");
+            List<String> lines = Main.startupBannerLines(info);
+
+            assertTrue(lines.stream().allMatch(line -> com.paicli.util.TerminalTable.width(line) <= 40));
+            assertTrue(String.join("", lines).contains("model-with-a-long-but-complete-id"));
+            assertTrue(lines.stream().anyMatch(line -> line.contains("待确认")));
+            assertFalse(String.join("\n", lines).contains("1/1 就绪"));
+        } finally {
+            restoreProperty("paicli.render.columns", previous);
+        }
+    }
+
+    @Test
+    void mcpStartupDistinguishesPendingAndFailedServicesFromReadyOnes() {
+        var config = new com.paicli.mcp.config.McpServerConfig();
+        config.setCommand("local-test-server");
+        var server = new com.paicli.mcp.McpServer("browser", config);
+        for (var status : com.paicli.mcp.McpServerStatus.values()) {
+            server.status(status);
+            String line = Main.startupMcpServiceLine(server);
+            switch (status) {
+                case READY -> assertTrue(line.contains("就绪 · 0 工具"), line);
+                case STARTING -> assertTrue(line.contains("启动中") && line.contains("/mcp"), line);
+                case ERROR -> assertTrue(line.contains("连接失败") && line.contains("/mcp logs browser"), line);
+                case UNTRUSTED -> assertTrue(line.contains("待确认") && line.contains("/mcp trust browser"), line);
+                case DISABLED -> assertTrue(line.contains("已禁用") && line.contains("/mcp enable browser"), line);
+            }
+        }
+    }
+
+    @Test
+    void toolInventoryReflectsMcpRegistrationAndRemovalWithoutExecutingTools() {
+        var registry = new com.paicli.tool.ToolRegistry();
+        int builtinCount = registry.getToolDefinitions().size();
+        String before = Main.formatToolInventory(registry);
+        assertTrue(before.contains("内置 " + builtinCount + " · MCP 0"), before);
+        assertTrue(before.contains("read_file") && before.contains("execute_command"), before);
+
+        var schema = com.fasterxml.jackson.databind.node.JsonNodeFactory.instance.objectNode();
+        var descriptor = new com.paicli.mcp.protocol.McpToolDescriptor(
+                "test", "read", "mcp__test__read", "Local test tool", schema);
+        registry.registerMcpTool(descriptor, ignored -> { throw new AssertionError("Listing must not execute tools"); });
+        String registered = Main.formatToolInventory(registry);
+        assertTrue(registered.contains("内置 " + builtinCount + " · MCP 1"), registered);
+        assertTrue(registered.contains("mcp__test__read"), registered);
+
+        registry.unregisterMcpTool("mcp__test__read");
+        String removed = Main.formatToolInventory(registry);
+        assertTrue(removed.contains("内置 " + builtinCount + " · MCP 0"), removed);
+        assertFalse(removed.contains("mcp__test__read"), removed);
     }
 
     @Test

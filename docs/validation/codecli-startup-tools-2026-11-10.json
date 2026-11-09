@@ -1,0 +1,249 @@
+{
+  "started_local_date": "2026-11-09",
+  "completed_local_date": "2026-11-10",
+  "timezone": "Asia/Shanghai",
+  "baseline_commit": "98ba601e2938d15a986470d04df84508dcf1be62",
+  "changes": [
+    "Block CC startup logo and responsive terminal layout",
+    "Live builtin/MCP registered tool counts and per-service startup states",
+    "Read-only /tools inventory command with slash completion",
+    "Restore Browser/Image/Memory/RAG capability labels"
+  ],
+  "focused": {
+    "command": "mvn -o test -DskipTests=false -Dtest=MainInputNormalizationTest,CliCommandParserTest,ProjectMemoryInitializerTest,PromptAssemblerTest,SkillBuiltinExtractorTest,PlainRendererTest,LanternaRendererTest,BrowserGuardTest,PaiCliCompleterTest",
+    "exit_code": 0,
+    "elapsed_seconds": 38.42,
+    "suites": [
+      {
+        "name": "com.paicli.browser.BrowserGuardTest",
+        "tests": "13",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.paicli.cli.CliCommandParserTest",
+        "tests": "58",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.paicli.cli.MainInputNormalizationTest",
+        "tests": "38",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.paicli.cli.PaiCliCompleterTest",
+        "tests": "17",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.paicli.cli.ProjectMemoryInitializerTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.paicli.prompt.PromptAssemblerTest",
+        "tests": "12",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.paicli.render.PlainRendererTest",
+        "tests": "17",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.paicli.skill.SkillBuiltinExtractorTest",
+        "tests": "5",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.paicli.tui.LanternaRendererTest",
+        "tests": "2",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ],
+    "failure_list": [],
+    "totals": {
+      "tests": 168,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "mcp_regression": {
+    "command": "mvn -o test -DskipTests=false -Dtest=McpServerManagerTest,McpToolRegistrationTest,McpConfigLoaderTest",
+    "exit_code": 0,
+    "elapsed_seconds": 44.44,
+    "suites": [
+      {
+        "name": "com.paicli.mcp.config.McpConfigLoaderTest",
+        "tests": "10",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.paicli.mcp.McpServerManagerTest",
+        "tests": "12",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.paicli.mcp.McpToolRegistrationTest",
+        "tests": "6",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ],
+    "failure_list": [],
+    "totals": {
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "package": {
+    "command": "mvn -o clean package -DskipTests",
+    "exit_code": 0,
+    "elapsed_seconds": 53.57
+  },
+  "metadata_and_cli_smoke": {
+    "version": {
+      "exit_code": 0,
+      "args": [
+        "--version"
+      ],
+      "stdout": "CodeCLI v1.0-SNAPSHOT\r\n",
+      "isolated_home": true,
+      "no_config_files_created": true
+    },
+    "help": {
+      "exit_code": 0,
+      "args": [
+        "--help"
+      ],
+      "stdout": "CodeCLI — 本地代码助手\r\nUsage: java -jar target/codecli-1.0-SNAPSHOT.jar [--help | --version]\r\nStart without arguments for interactive local coding tasks.\r\nCommands: /plan, /mode, /tools, /mcp, /memory, /context, /export, /exit\r\n",
+      "isolated_home": true,
+      "no_config_files_created": true
+    },
+    "short-help": {
+      "exit_code": 0,
+      "args": [
+        "-h"
+      ],
+      "stdout": "CodeCLI — 本地代码助手\r\nUsage: java -jar target/codecli-1.0-SNAPSHOT.jar [--help | --version]\r\nStart without arguments for interactive local coding tasks.\r\nCommands: /plan, /mode, /tools, /mcp, /memory, /context, /export, /exit\r\n",
+      "isolated_home": true,
+      "no_config_files_created": true
+    },
+    "wechat-help": {
+      "exit_code": 0,
+      "args": [
+        "wechat",
+        "--help"
+      ],
+      "stdout": "CodeCLI 微信通道：\n  java -jar target/codecli-1.0-SNAPSHOT.jar wechat setup\n  java -jar target/codecli-1.0-SNAPSHOT.jar wechat start\n  java -jar target/codecli-1.0-SNAPSHOT.jar wechat status\n  java -jar target/codecli-1.0-SNAPSHOT.jar wechat daemon start|stop|restart|status|logs\r\n",
+      "isolated_home": true
+    },
+    "interactive": {
+      "exit_code": 0,
+      "args": [],
+      "stdout": "    ██████   ██████     CodeCLI  v1.0-SNAPSHOT\r\n   ██       ██          本地代码助手 · Local Coding Agent\r\n   ██       ██          Model  hunyuan-codecli-smoke (hunyuan)\r\n   ██       ██          Tools  18 built-in · 0 MCP\r\n    ██████   ██████     Skills 2/2 · ReAct\r\n\r\nReAct · Plan · Tools · MCP · Browser · Image · Memory · RAG\r\n\r\nMCP  未配置 · /mcp 查看配置位置\r\n\r\n/tools 查看工具  ·  /mcp 查看服务  ·  /mcp logs <name> 查看日志\r\nTips for getting started:\r\n1. 输入 / 后按 Tab 补全命令\r\n2. 直接描述任务，或用 /plan 先规划\r\n3. 用 @path 或 @image: 添加文件或图片\r\n\r\n[提示] 检测到 ~/.paicli/mcp.json 未配置 chrome-devtools，建议参考 README 添加浏览器 MCP server。\r\n\r\n> > /tools                                                                                                                \r\n工具 · 内置 18 · MCP 0\n\n  工具                  来源\n  ──────────────────────────\n  browser_connect       内置\n  browser_disconnect    内置\n  browser_status        内置\n  create_project        内置\n  edit_file             内置\n  execute_command       内置\n  glob_files            内置\n  grep_code             内置\n  list_dir              内置\n  load_skill            内置\n  read_file             内置\n  revert_turn           内置\n  save_memory           内置\n  save_skill_reference  内置\n  search_code           内置\n  web_fetch             内置\n  web_search            内置\n  write_file            内置\n\nMCP 工具在服务就绪后注册；用 /mcp 查看服务状态，/mcp logs <name> 查看日志。\r\n\r\n> > /mcp                                                                                                                  \r\nMCP · 未配置\n配置文件：~/.paicli/mcp.json 或 .paicli/mcp.json\r\n\r\n> > /context                                                                                                              \r\n[信息] 上下文状态：\r\n📊 Context Usage   hunyuan-codecli-smoke (hunyuan)   window: 1.0M\r\n\n  [░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]  1%  (5.1k / 1.0M)\r\n\n  当前占用细分:\n    System prompt:         2.7k  ( 0.3%)  [1 条]\r\n    Tools schema:          2.3k  ( 0.2%)\r\n    Conversation:             0  ( 0.0%)  [0 条]\r\n    ─────────────────────────────────\n    合计:                  5.1k  ( 0.5%)\r\n\r\n  压缩阈值: 967.0k (96%)   距压缩还有: 961.9k\r\n  旧工具结果清理: 100.0k 触发，保留最近 3 条\n  自动压缩: 完整摘要（Session Memory 实验开关关闭）\n  MCP resources 自动索引: 开启\n  prompt cache: hunyuan-prefix-cache\n\n上下文策略: window: 1000000 | 压缩阈值: 96% (967000 tokens) | MCP resource 索引: on | prompt cache: hunyuan-prefix-cache\n短期上下文: 由当前 Agent conversationHistory 维护\n自动事实提取: 开启\n长期记忆: 0条 / 0 tokens (事实: 0, 摘要: 0, 工具结果: 0)\nToken 统计: 调用 0 次 | 总输入: 0 | 总输出: 0 | cached: 0 | 平均输入: 0 | 预算: 1000000 (可用: 996700)\r\n\r\n> > /memory                                                                                                               \r\n[信息] 记忆系统状态：\r\n上下文策略: window: 1000000 | 压缩阈值: 96% (967000 tokens) | MCP resource 索引: on | prompt cache: hunyuan-prefix-cache\n短期上下文: 由当前 Agent conversationHistory 维护\n自动事实提取: 开启\n长期记忆: 0条 / 0 tokens (事实: 0, 摘要: 0, 工具结果: 0)\nToken 统计: 调用 0 次 | 总输入: 0 | 总输出: 0 | cached: 0 | 平均输入: 0 | 预算: 1000000 (可用: 996700)\r\n   当前项目作用域: E:\\obsidian\\agent\\项目\\codecli-main\\codecli-main\\.codex\\better-harness\\codecli-startup-tools-2026-11-09\\smoke\\interactive\\work\r\n   /memory list - 查看长期记忆\r\n   /memory search <关键词> - 搜索当前项目可见长期记忆\r\n   /memory delete <id> - 删除单条长期记忆\r\n   /memory verify <id> - 确认记忆仍然成立，刷新最后核实时间\r\n   /memory replace <id> <新事实> - 用新内容替换冲突/过时的记忆\r\n   /memory clear - 清空长期记忆\r\n   /save <事实> - 保存项目级长期记忆；/save --global <事实> 保存全局记忆\r\n   /save --force <事实> - 与已有记忆冲突时仍保留两条\r\n\r\n> > /init                                                                                                                 \r\n[完成] 已生成项目级记忆 PAI.md。\r\n   路径: E:\\obsidian\\agent\\项目\\codecli-main\\codecli-main\\.codex\\better-harness\\codecli-startup-tools-2026-11-09\\smoke\\interactive\\work\\PAI.md\r\n   这份 PAI.md 会在后续 system prompt 的 Project Context 中注入。\n\r\n> > /exit                                                                                                                 \r\n\n[退出] 再见!\r\n",
+      "isolated_home": true,
+      "commands_sent": [
+        "/tools",
+        "/mcp",
+        "/context",
+        "/memory",
+        "/init",
+        "/exit"
+      ],
+      "model_task_sent": false,
+      "dummy_credentials_only": true,
+      "configured_mcp_servers": 0,
+      "init_rule_file": "PAI.md",
+      "init_recognizes_codecli": true
+    },
+    "artifact": {
+      "path": "target/codecli-1.0-SNAPSHOT.jar",
+      "sha256": "91a5e1db568005ee877a70d6c27544aadd86582b4d218ad8e3faa66d090bc66f"
+    },
+    "old_brand_jars_in_target": []
+  },
+  "local_mcp_cli_smoke": {
+    "120": {
+      "exit_code": 0,
+      "registered_builtin_tools": 18,
+      "registered_mcp_tools": 1,
+      "ready_services": 1,
+      "total_services": 4,
+      "states_verified": [
+        "ready",
+        "disabled",
+        "error",
+        "untrusted"
+      ],
+      "model_calls": 0,
+      "real_browser_started": false,
+      "external_mcp_started": false,
+      "local_fixture_only": true
+    },
+    "40": {
+      "exit_code": 0,
+      "registered_builtin_tools": 18,
+      "registered_mcp_tools": 1,
+      "ready_services": 1,
+      "total_services": 4,
+      "states_verified": [
+        "ready",
+        "disabled",
+        "error",
+        "untrusted"
+      ],
+      "model_calls": 0,
+      "real_browser_started": false,
+      "external_mcp_started": false,
+      "local_fixture_only": true
+    }
+  },
+  "user_setup_read_only": {
+    "java_user_home": "C:\\Users\\86138",
+    "builtin_count": 18,
+    "configured_mcp_servers": [
+      {
+        "name": "chrome-devtools",
+        "transport": "stdio",
+        "disabled": false
+      }
+    ],
+    "real_server_started_for_this_inspection": false,
+    "real_config_modified": false
+  },
+  "limits": {
+    "real_model_called": false,
+    "real_browser_started": false,
+    "external_mcp_started": false,
+    "local_stdio_fixture_started": true,
+    "docker_or_native_agentbench_run": false,
+    "full_suite_run": false,
+    "real_user_chrome_mcp_connectivity_verified": false
+  }
+}

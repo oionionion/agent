@@ -47,11 +47,14 @@ java -jar target/codecli-1.0-SNAPSHOT.jar --help
 | `/plan <任务>` | 进入本次任务的规划、审阅与执行流程 |
 | `/mode auto` / `/mode ask` | 切换工具审批预设 |
 | `/mode plan` | 让后续普通任务默认进入规划；不是第三档审批 |
+| `/tools` | 查看当前已注册的内置工具与 MCP 工具 |
 | `/mcp` | 查看 MCP 服务状态与工具 |
 | `/context` | 查看上下文预算与治理状态 |
 | `/memory` / `/save` | 查看长期事实或显式保存稳定约定 |
 | `/export` / `/resume` | 导出当前会话或恢复历史会话 |
 | `/exit` | 退出交互终端 |
+
+启动界面显示块状 CC 标识、实际内置工具/MCP工具数量，以及每个 MCP 服务的就绪、启动中、失败、禁用或待确认状态。内置工具随程序注册，MCP工具在服务就绪后加入；配置仍从 Windows 用户目录的 `.paicli/mcp.json` 与当前项目的 `.paicli/mcp.json` 合并读取。用 `/tools` 查看当前注册列表，`/mcp` 查看最新状态，`/mcp logs <name>` 查看连接日志。
 
 ## MCP：按工具部署位置选择传输
 

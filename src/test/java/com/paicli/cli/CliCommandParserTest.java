@@ -8,6 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class CliCommandParserTest {
 
     @Test
+    void parsesToolsListAsLocalCommand() {
+        var command = CliCommandParser.parse("  /tools  ");
+        assertEquals(CliCommandParser.CommandType.TOOLS_LIST, command.type());
+        assertNull(command.payload());
+        assertEquals(CliCommandParser.CommandType.UNKNOWN_COMMAND, CliCommandParser.parse("/tools read_file").type());
+    }
+
+    @Test
     void resolvesDeepSeekFlashAsExplicitModel() {
         Main.ModelSelection selection = Main.resolveModelSelection("deepseek-flash");
         assertEquals("deepseek", selection.provider());

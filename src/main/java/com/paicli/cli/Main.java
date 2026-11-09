@@ -94,6 +94,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -202,12 +203,14 @@ public class Main {
         }
     }
 
-    private record StartupScreenInfo(
+    record StartupScreenInfo(
             String model,
             String provider,
             long mcpReady,
             int mcpTotal,
             int mcpTools,
+            int builtinTools,
+            List<String> mcpServices,
             int skillsEnabled,
             int skillsTotal,
             String note
@@ -227,7 +230,7 @@ public class Main {
             out.println("CodeCLI — 本地代码助手");
             out.println("Usage: java -jar target/codecli-1.0-SNAPSHOT.jar [--help | --version]");
             out.println("Start without arguments for interactive local coding tasks.");
-            out.println("Commands: /plan, /mode, /mcp, /memory, /context, /export, /exit");
+            out.println("Commands: /plan, /mode, /tools, /mcp, /memory, /context, /export, /exit");
             return true;
         }
         return false;
@@ -390,7 +393,7 @@ public class Main {
             WechatRuntimeController wechatRuntime = new WechatRuntimeController(renderer);
             Runtime.getRuntime().addShutdownHook(new Thread(wechatRuntime::stop, "paicli-wechat-shutdown"));
             renderer.updateStatus(statusInfo(reactAgent, mcpServerManager, skillRegistry, "idle"));
-            StartupScreenInfo startupScreenInfo = startupScreenInfo(llmClient, mcpServerManager, skillRegistry, startupNote);
+            StartupScreenInfo startupScreenInfo = startupScreenInfo(llmClient, hitlToolRegistry, mcpServerManager, skillRegistry, startupNote);
             if (renderer instanceof InlineRenderer inline) {
                 inline.installStartupScreen(startupScreenLines(startupScreenInfo));
             } else {
@@ -750,6 +753,11 @@ public class Main {
                     }
                     case RESTORE_SNAPSHOT -> {
                         printRestoreCommand(ui, reactAgent.getToolRegistry().getSnapshotService(), command.payload());
+                        continue;
+                    }
+                    case TOOLS_LIST -> {
+                        ui.println(formatToolInventory(reactAgent.getToolRegistry()));
+                        ui.println();
                         continue;
                     }
                     case MCP_LIST -> {
@@ -1865,6 +1873,7 @@ public class Main {
                 new SlashCommandHint("/task add ", "/task add <任务内容>", "提交后台任务"),
                 new SlashCommandHint("/task cancel ", "/task cancel <task_id>", "取消后台任务"),
                 new SlashCommandHint("/task log ", "/task log <task_id>", "查看后台任务结果"),
+                new SlashCommandHint("/tools", "/tools", "查看已注册的内置工具和 MCP 工具"),
                 new SlashCommandHint("/mcp", "/mcp", "查看 MCP server 状态"),
                 new SlashCommandHint("/mcp restart ", "/mcp restart <name>", "重启 MCP server"),
                 new SlashCommandHint("/mcp logs ", "/mcp logs <name>", "查看 MCP server 日志"),
@@ -2804,6 +2813,7 @@ public class Main {
     }
 
     private static StartupScreenInfo startupScreenInfo(LlmClient llmClient,
+                                                       ToolRegistry toolRegistry,
                                                        McpServerManager mcpServerManager,
                                                        SkillRegistry skillRegistry,
                                                        String note) {
@@ -2811,9 +2821,8 @@ public class Main {
                 .filter(server -> server.status() == McpServerStatus.READY)
                 .count();
         int total = mcpServerManager.servers().size();
-        int tools = mcpServerManager.servers().stream()
-                .mapToInt(server -> server.tools().size())
-                .sum();
+        List<LlmClient.Tool> registered = toolRegistry.getToolDefinitions();
+        int tools = (int) registered.stream().filter(tool -> tool.name().startsWith("mcp__")).count();
         int skillTotal = skillRegistry.allSkills().size();
         int skillEnabled = skillRegistry.enabledSkills().size();
         return new StartupScreenInfo(
@@ -2822,6 +2831,8 @@ public class Main {
                 ready,
                 total,
                 tools,
+                registered.size() - tools,
+                mcpServerManager.servers().stream().map(Main::startupMcpServiceLine).toList(),
                 skillEnabled,
                 skillTotal,
                 (note == null ? "" : note.trim())
@@ -3220,47 +3231,87 @@ public class Main {
 
     static List<String> startupBannerLines() {
         return startupBannerLines(new StartupScreenInfo(
-                "auto",
-                "model",
-                0,
-                0,
-                0,
-                0,
-                0,
-                ""));
+                "auto", "model", 0, 0, 0, 0, List.of(), 0, 0, ""));
     }
 
     static List<String> startupBannerLines(StartupScreenInfo info) {
         String model = info.model() == null || info.model().isBlank() ? "auto" : info.model();
         String provider = info.provider() == null || info.provider().isBlank() ? "model" : info.provider();
-        String mcp = info.mcpTotal() <= 0
-                ? "MCP not configured"
-                : "MCP " + info.mcpReady() + "/" + info.mcpTotal() + " · " + info.mcpTools() + " tools";
-        String skills = info.skillsTotal() <= 0
-                ? "0 skills"
-                : info.skillsEnabled() + "/" + info.skillsTotal() + " skills";
-        String ready = "Model " + model + " (" + provider + ")";
-        String capabilities = "ReAct · Plan · Tools · Memory · MCP";
-        String state = mcp + " · " + skills + " · ReAct";
-        List<String> lines = new ArrayList<>(List.of(
-                "   " + AnsiStyle.section("[CC]") + "    " + AnsiStyle.emphasis("CodeCLI") + "  " + AnsiStyle.subtle("v" + VERSION),
-                "           " + AnsiStyle.subtle("本地代码助手 · Local Coding Agent"),
-                "           " + AnsiStyle.subtle(ready),
-                "           " + AnsiStyle.subtle(state),
-                "           " + AnsiStyle.subtle(capabilities),
-                "",
-                "Tips for getting started:",
-                "1. Type " + AnsiStyle.emphasis("/") + " for commands and Tab completion",
-                "2. Ask coding questions, edit code or run commands",
-                "3. Attach context with " + AnsiStyle.emphasis("@path") + " or " + AnsiStyle.emphasis("@image:")
-        ));
+        String[] logo = {
+                " ██████   ██████ ",
+                "██       ██      ",
+                "██       ██      ",
+                "██       ██      ",
+                " ██████   ██████ "
+        };
+        List<String> details = List.of(
+                AnsiStyle.emphasis("CodeCLI") + "  " + AnsiStyle.subtle("v" + VERSION),
+                AnsiStyle.subtle("本地代码助手 · Local Coding Agent"),
+                "Model  " + AnsiStyle.emphasis(model) + AnsiStyle.subtle(" (" + provider + ")"),
+                "Tools  " + info.builtinTools() + " built-in · " + info.mcpTools() + " MCP",
+                "Skills " + info.skillsEnabled() + "/" + info.skillsTotal() + " · ReAct"
+        );
+        int columns = terminalColumns();
+        List<String> lines = new ArrayList<>();
+        if (columns >= 90) {
+            List<String> wrappedDetails = details.stream()
+                    .flatMap(line -> Arrays.stream(TerminalTable.wrap(line, columns - 24).split("\n")))
+                    .toList();
+            for (int i = 0; i < Math.max(logo.length, wrappedDetails.size()); i++) {
+                String mark = i < logo.length ? AnsiStyle.section(logo[i]) : " ".repeat(17);
+                String detail = i < wrappedDetails.size() ? wrappedDetails.get(i) : "";
+                lines.add("   " + mark + "    " + detail);
+            }
+        } else {
+            for (String row : logo) lines.add("  " + AnsiStyle.section(row));
+            lines.add("");
+            for (String detail : details) lines.add("  " + detail);
+        }
+        lines.add("");
+        lines.add(AnsiStyle.subtle("ReAct · Plan · Tools · MCP · Browser · Image · Memory · RAG"));
+        lines.add("");
+        if (info.mcpTotal() == 0) {
+            lines.add("MCP  未配置 · /mcp 查看配置位置");
+        } else {
+            lines.add("MCP  " + info.mcpReady() + "/" + info.mcpTotal() + " 就绪 · " + info.mcpTools() + " 工具");
+            lines.addAll(info.mcpServices());
+        }
+        lines.add("");
+        lines.add("/tools 查看工具  ·  /mcp 查看服务  ·  /mcp logs <name> 查看日志");
+        lines.add("Tips for getting started:");
+        lines.add("1. 输入 / 后按 Tab 补全命令");
+        lines.add("2. 直接描述任务，或用 /plan 先规划");
+        lines.add("3. 用 @path 或 @image: 添加文件或图片");
         if (info.note() != null && !info.note().isBlank()) {
             lines.add("");
-            for (String line : TerminalTable.wrap(info.note().strip(), terminalColumns()).split("\n")) {
-                lines.add(AnsiStyle.subtle(line));
-            }
+            lines.add(AnsiStyle.subtle(info.note().strip()));
         }
-        return lines;
+        return lines.stream()
+                .flatMap(line -> Arrays.stream(TerminalTable.wrap(line, columns).split("\n", -1)))
+                .toList();
+    }
+
+    static String startupMcpServiceLine(McpServer server) {
+        String state = switch (server.status()) {
+            case READY -> "就绪";
+            case STARTING -> "启动中（后台继续，/mcp 查看最新状态）";
+            case DISABLED -> "已禁用（/mcp enable " + server.name() + "）";
+            case UNTRUSTED -> "待确认（/mcp trust " + server.name() + "）";
+            case ERROR -> "连接失败（/mcp logs " + server.name() + "）";
+        };
+        String tools = server.status() == McpServerStatus.READY ? " · " + server.tools().size() + " 工具" : "";
+        return "  " + server.name() + " · " + server.transportName() + " · " + state + tools;
+    }
+
+    static String formatToolInventory(ToolRegistry registry) {
+        List<LlmClient.Tool> tools = registry.getToolDefinitions();
+        long mcpTools = tools.stream().filter(tool -> tool.name().startsWith("mcp__")).count();
+        List<List<String>> rows = tools.stream()
+                .map(tool -> List.of(tool.name(), tool.name().startsWith("mcp__") ? "MCP" : "内置"))
+                .toList();
+        return "工具 · 内置 " + (tools.size() - mcpTools) + " · MCP " + mcpTools + "\n\n"
+                + TerminalTable.render(List.of("工具", "来源"), rows, terminalColumns()) + "\n\n"
+                + TerminalTable.wrap("MCP 工具在服务就绪后注册；用 /mcp 查看服务状态，/mcp logs <name> 查看日志。", terminalColumns());
     }
 
     static McpConfigBootstrapResult ensureDefaultMcpConfig(Path userHome) throws IOException {

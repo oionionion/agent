@@ -1,5 +1,15 @@
 # CodeCLI 名称、目录与启动验证（2026-11-09）
 
+## 启动标识与工具可见性补充（2026-11-10）
+
+按用户反馈，把简略的 `[CC]` 替换为绿色块状双C标识；宽终端左右排列、窄终端上下排列并折行。恢复 Browser、Image、Memory、RAG 功能提示。启动屏从实际工具注册表计算内置/MCP工具数，列出每个MCP服务的就绪、启动中、失败、禁用或待确认状态；`/tools`可随时查看当前注册工具，`/mcp`和`/mcp logs <name>`查看实时服务与日志。
+
+只读核对Windows用户目录：18个内置工具仍在；用户级`C:\Users\86138\.paicli\mcp.json`仍配置并启用`chrome-devtools`。本轮未修改该文件、启动真实浏览器MCP或调用真实模型；配置存在不等于该服务已经连接。前一轮缩短的是首屏功能提示，不是删除实际工具实现。
+
+验证：9组定向测试168项、MCP配置/注册/管理回归28项，均0失败/错误/跳过；离线clean package成功，新jar元信息和隔离本地命令通过。用本地stdio测试服务完成真实进程握手/发现/注册，120列和40列下`/tools`、`/mcp`都能显示18内置+1测试MCP工具，失败/禁用/待确认状态正确；模型调用计数0。测试服务不代表用户chrome-devtools已连接，未跑全量或Native AgentBench。
+
+结构化证据见[本轮验证记录](validation/codecli-startup-tools-2026-11-10.json)，本地原始日志/测试驱动在`.codex/better-harness/codecli-startup-tools-2026-11-09/`（会话从11月9日跨至10日）。日常启动产物仍为`target/codecli-1.0-SNAPSHOT.jar`，更新后须退出旧进程再启动新jar。
+
 ## 本轮范围
 
 对外名称与当前简历统一为 **CodeCLI — 本地代码助手**：终端横幅、帮助、导出、TUI、浏览器操作提示、微信启动用法、模型身份和 Maven 产物同步更新，产物为 `target/codecli-1.0-SNAPSHOT.jar`。`/init` 优先识别 CodeCLI，仍兼容识别 OpsPilot 与 PaiCLI。

@@ -46,6 +46,8 @@ class PaiCliCompleterTest {
         completer.complete(null, parsed("/", "/"), candidates);
 
         assertTrue(candidates.stream().anyMatch(c -> c.displ().equals("/model")));
+        assertTrue(candidates.stream().anyMatch(c -> c.displ().equals("/tools")
+                && c.descr().contains("内置工具")));
         assertTrue(candidates.stream().anyMatch(c -> c.displ().equals("/browser connect")));
         assertTrue(candidates.stream().anyMatch(c -> c.displ().equals("/search <查询>")));
     }
