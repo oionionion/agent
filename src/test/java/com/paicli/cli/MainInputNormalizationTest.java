@@ -76,10 +76,11 @@ class MainInputNormalizationTest {
     void startupBannerUsesOpenLayoutWithoutRightBorder() {
         List<String> lines = Main.startupBannerLines();
 
-        assertTrue(lines.stream().anyMatch(line -> line.contains("OpsPilot")));
-        assertTrue(lines.stream().anyMatch(line -> line.contains("研发运维智能体")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("CodeCLI")));
+        assertFalse(lines.stream().anyMatch(line -> line.contains("OpsPilot") || line.contains("PaiCLI")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("本地代码助手")));
         assertTrue(lines.stream().anyMatch(line -> line.contains("v1.0-SNAPSHOT")));
-        assertTrue(lines.stream().anyMatch(line -> line.contains("[OP]")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("[CC]")));
         assertTrue(lines.stream().noneMatch(line -> line.contains("PaiCLI") || line.contains("π")));
         assertTrue(lines.stream().anyMatch(line -> line.contains("Tips for getting started")));
         assertTrue(lines.stream().anyMatch(line -> line.contains("@path")));
@@ -94,13 +95,13 @@ class MainInputNormalizationTest {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(bytes, true, StandardCharsets.UTF_8);
         assertTrue(Main.printCommandLineInfo(new String[]{"--version"}, out));
-        assertEquals("OpsPilot v1.0-SNAPSHOT", bytes.toString(StandardCharsets.UTF_8).strip());
+        assertEquals("CodeCLI v1.0-SNAPSHOT", bytes.toString(StandardCharsets.UTF_8).strip());
         for (String flag : List.of("--help", "-h")) {
             bytes.reset();
             assertTrue(Main.printCommandLineInfo(new String[]{flag}, out));
             String text = bytes.toString(StandardCharsets.UTF_8);
-            assertTrue(text.contains("OpsPilot"));
-            assertTrue(text.contains("target/opspilot-1.0-SNAPSHOT.jar"));
+            assertTrue(text.contains("CodeCLI"));
+            assertTrue(text.contains("target/codecli-1.0-SNAPSHOT.jar"));
             assertTrue(text.contains("/mcp"));
         }
         assertFalse(Main.printCommandLineInfo(new String[]{}, out));
@@ -110,10 +111,10 @@ class MainInputNormalizationTest {
     }
 
     @Test
-    void exitCommandDescriptionsUseOpsPilotName() {
+    void exitCommandDescriptionsUseCodeCLIName() {
         assertTrue(Main.slashCommandHints().stream()
                 .filter(hint -> hint.insertText().equals("/exit") || hint.insertText().equals("/quit"))
-                .allMatch(hint -> hint.description().equals("退出 OpsPilot")));
+                .allMatch(hint -> hint.description().equals("退出 CodeCLI")));
     }
 
     @Test
@@ -296,7 +297,7 @@ class MainInputNormalizationTest {
 
         String markdown = Main.renderConversationExport(history, LocalDateTime.of(2026, 6, 10, 14, 17));
 
-        assertTrue(markdown.startsWith("# OpsPilot 会话导出"), markdown);
+        assertTrue(markdown.startsWith("# CodeCLI 会话导出"), markdown);
         assertTrue(markdown.contains("## System"), markdown);
         assertTrue(markdown.contains("system prompt"), markdown);
         assertFalse(markdown.contains("System prompt 已省略"), markdown);

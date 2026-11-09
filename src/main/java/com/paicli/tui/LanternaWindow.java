@@ -57,7 +57,7 @@ public final class LanternaWindow {
 
         // 创建根面板（三栏布局）
         this.rootPane = new RootPane(config, llmClient);
-        this.mainWindow = new BasicWindow("OpsPilot v1.0-SNAPSHOT");
+        this.mainWindow = new BasicWindow("CodeCLI v1.0-SNAPSHOT");
         mainWindow.setComponent(rootPane);
         gui.addWindow(mainWindow);
 

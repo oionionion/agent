@@ -85,10 +85,14 @@ final class ProjectMemoryInitializer {
         List<String> pitfalls = new ArrayList<>();
         List<String> donts = new ArrayList<>();
 
-        if (combined.contains("opspilot") || combined.contains("paicli")) {
-            description = combined.contains("opspilot")
-                    ? "OpsPilot 是面向研发与科研任务的 Java 终端智能体；主路径是 ReAct、Plan-and-Execute、Multi-Agent 三套执行模式。"
-                    : "PaiCLI 是面向商业使用的 Java Agent CLI 产品，对标 Claude Code；主路径是 ReAct、Plan-and-Execute、Multi-Agent 三套执行模式。";
+        if (combined.contains("codecli") || combined.contains("opspilot") || combined.contains("paicli")) {
+            if (combined.contains("codecli")) {
+                description = "CodeCLI 是面向本地代码仓库的 Java 终端代码助手；主路径是 ReAct、Plan-and-Execute、Multi-Agent 三套执行模式。";
+            } else if (combined.contains("opspilot")) {
+                description = "OpsPilot 是面向研发与科研任务的 Java 终端智能体；主路径是 ReAct、Plan-and-Execute、Multi-Agent 三套执行模式。";
+            } else {
+                description = "PaiCLI 是面向商业使用的 Java Agent CLI 产品，对标 Claude Code；主路径是 ReAct、Plan-and-Execute、Multi-Agent 三套执行模式。";
+            }
             commands = List.of(
                     "构建：`mvn clean package` 默认跳过测试，优先产出可手工验收 jar。",
                     "常规回归：`mvn test -Pquick`；TUI 相关跑 `mvn test -Pphase16-smoke`。",

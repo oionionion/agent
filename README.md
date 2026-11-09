@@ -1,6 +1,6 @@
-# OpsPilot — 研发运维智能体
+# CodeCLI — 本地代码助手
 
-面向研发与科研任务的 Java 终端智能体，围绕代码定位与修改、脚本执行、日志排查和构建验证，组织多步任务并约束工具操作。
+面向本地代码仓库的 Java 终端 Coding Agent，支持代码检索、文件编辑与命令执行，串联模型交互、任务规划、工具/MCP 调用、执行审批、任务快照及记忆上下文管理。
 
 ## 核心能力
 
@@ -17,14 +17,14 @@
 cp .env.example .env
 # 编辑 .env，填写实际模型连接配置；不要提交密钥。
 mvn clean package
-java -jar target/opspilot-1.0-SNAPSHOT.jar
+java -jar target/codecli-1.0-SNAPSHOT.jar
 ```
 
 仅查看版本或帮助，无需 API Key，不加载用户配置、不启动 MCP、不调用模型：
 
 ```bash
-java -jar target/opspilot-1.0-SNAPSHOT.jar --version
-java -jar target/opspilot-1.0-SNAPSHOT.jar --help
+java -jar target/codecli-1.0-SNAPSHOT.jar --version
+java -jar target/codecli-1.0-SNAPSHOT.jar --help
 ```
 
 默认构建跳过测试。源码修改后请重新打包，不要继续使用旧 jar。
@@ -86,16 +86,18 @@ mvn -o test -Pphase16-smoke -DskipTests=false
 mvn -o package -DskipTests
 ```
 
-定向回归、打包与启动检查的结果，以及当前环境下既有的界面测试失败，见[验证记录](docs/opspilot-branding.md#验证)。
+定向回归、打包与启动检查的结果，以及当前环境下既有的界面测试失败，见[验证记录](docs/codecli-branding.md#验证)。
 
 ## 兼容与目录
 
-- 构建产物为 `opspilot-1.0-SNAPSHOT.jar`，主入口为 `com.paicli.cli.Main`。
+- 本地工作目录已统一为 `codecli-main/`；现有学习工作区的实际源码在其 `codecli-main/` 子目录，克隆仓库后则直接在仓库根目录构建。
+- IDEA 项目/模块名与 Maven 路径已同步；旧构建产物由本轮重新打包清理，启动请使用下面的 CodeCLI jar。
+- 构建产物为 `codecli-1.0-SNAPSHOT.jar`，主入口为 `com.paicli.cli.Main`。
 - 配置沿用系统属性 `paicli.*`、环境变量 `PAICLI_*`、配置目录 `.paicli` 及项目规则 `PAI.md`。
 - `.env`、本地配置与 `target/` 不提交到版本库。
 
 ## 文档与来源
 
-- [品牌迁移与验证记录](docs/opspilot-branding.md)
+- [品牌迁移与验证记录](docs/codecli-branding.md)
 - [实现参考](docs/agents-reference.md)，模块文档位于 `docs/phase-*.md`。
 - 代码基础来自 PaiCLI（沉默王二），作者说明与原始文档见[原 README 存档](docs/reference/upstream-readme.md)。

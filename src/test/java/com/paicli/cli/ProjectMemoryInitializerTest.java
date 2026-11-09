@@ -43,6 +43,32 @@ class ProjectMemoryInitializerTest {
     }
 
     @Test
+    void generatesCodeCliMemoryAndRetainsLegacyRuleFilename() throws Exception {
+        Files.writeString(tempDir.resolve("README.md"), "# CodeCLI — 本地代码助手\n");
+        Files.writeString(tempDir.resolve("pom.xml"), "<project></project>");
+
+        assertTrue(ProjectMemoryInitializer.initialize(tempDir, false).written());
+
+        String content = Files.readString(tempDir.resolve("PAI.md"));
+        assertTrue(content.contains("CodeCLI 是面向本地代码仓库的 Java 终端代码助手"));
+        assertTrue(content.contains("mvn test -Pquick"));
+        assertFalse(content.contains("OpsPilot 是"));
+        assertFalse(content.contains("PaiCLI 是"));
+    }
+
+    @Test
+    void currentBrandTakesPrecedenceOverLegacyNamesInReferenceText() throws Exception {
+        Files.writeString(tempDir.resolve("README.md"), "# CodeCLI\n来源与兼容说明：PaiCLI / OpsPilot\n");
+
+        assertTrue(ProjectMemoryInitializer.initialize(tempDir, false).written());
+
+        String content = Files.readString(tempDir.resolve("PAI.md"));
+        assertTrue(content.contains("CodeCLI 是面向本地代码仓库的 Java 终端代码助手"));
+        assertFalse(content.contains("OpsPilot 是"));
+        assertFalse(content.contains("PaiCLI 是"));
+    }
+
+    @Test
     void doesNotOverwriteExistingFileWithoutForce() throws Exception {
         Files.writeString(tempDir.resolve("PAI.md"), "existing");
 

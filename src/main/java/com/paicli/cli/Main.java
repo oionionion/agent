@@ -109,7 +109,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 /**
- * OpsPilot - Terminal agent for development and research workflows
+ * CodeCLI - Terminal agent for local code repositories
  * 支持 ReAct、Plan-and-Execute、Memory、RAG、Multi-Agent、HITL、并行工具调用、多模型切换、MCP、CDP 会话复用
  * 第 15 期新增：Skill 系统（三层加载 + load_skill 工具 + 同轮正文注入）、内置 web-access skill
  * 第 16 期新增：TUI 界面（Lanterna 3）、文件树浏览、代码高亮、对话历史可视化、配置管理面板
@@ -220,13 +220,13 @@ public class Main {
             return false;
         }
         if ("--version".equals(args[0])) {
-            out.println("OpsPilot v" + VERSION);
+            out.println("CodeCLI v" + VERSION);
             return true;
         }
         if ("--help".equals(args[0]) || "-h".equals(args[0])) {
-            out.println("OpsPilot — 研发运维智能体");
-            out.println("Usage: java -jar target/opspilot-1.0-SNAPSHOT.jar [--help | --version]");
-            out.println("Start without arguments for interactive coding and research tasks.");
+            out.println("CodeCLI — 本地代码助手");
+            out.println("Usage: java -jar target/codecli-1.0-SNAPSHOT.jar [--help | --version]");
+            out.println("Start without arguments for interactive local coding tasks.");
             out.println("Commands: /plan, /mode, /mcp, /memory, /context, /export, /exit");
             return true;
         }
@@ -1092,7 +1092,7 @@ public class Main {
                 store.close();
             }, "paicli-runtime-api-shutdown"));
             server.start();
-            System.out.println("[完成] OpsPilot Runtime API 已启动: http://127.0.0.1:" + server.port());
+            System.out.println("[完成] CodeCLI Runtime API 已启动: http://127.0.0.1:" + server.port());
             System.out.println("   认证: Authorization: Bearer <PAICLI_RUNTIME_API_KEY>");
             new CountDownLatch(1).await();
         } catch (InterruptedException e) {
@@ -1357,7 +1357,7 @@ public class Main {
             return thread;
         });
         Future<String> future = executor.submit(task);
-        // 进入 raw mode 监听 ESC：raw mode 关 ICANON / ECHO / IEXTEN 但保留 ISIG，所以 Ctrl+C 仍能终止 OpsPilot。
+        // 进入 raw mode 监听 ESC：raw mode 关 ICANON / ECHO / IEXTEN 但保留 ISIG，所以 Ctrl+C 仍能终止 CodeCLI。
         Attributes original = null;
         try {
             if (terminal != null) {
@@ -1913,8 +1913,8 @@ public class Main {
                 new SlashCommandHint("/export", "/export", "导出当前会话对话记录为 Markdown"),
                 new SlashCommandHint("/resume", "/resume", "列出当前项目可以恢复的历史会话"),
                 new SlashCommandHint("/resume ", "/resume <序号>", "恢复一次历史会话，接着之前的对话继续"),
-                new SlashCommandHint("/exit", "/exit", "退出 OpsPilot"),
-                new SlashCommandHint("/quit", "/quit", "退出 OpsPilot")
+                new SlashCommandHint("/exit", "/exit", "退出 CodeCLI"),
+                new SlashCommandHint("/quit", "/quit", "退出 CodeCLI")
         );
     }
 
@@ -2425,7 +2425,7 @@ public class Main {
 
     static String renderConversationExport(List<LlmClient.Message> history, LocalDateTime exportedAt) {
         StringBuilder md = new StringBuilder();
-        md.append("# OpsPilot 会话导出\n\n");
+        md.append("# CodeCLI 会话导出\n\n");
         md.append("**导出时间**: ").append(exportedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))).append("\n\n");
         md.append("---\n\n");
 
@@ -3243,8 +3243,8 @@ public class Main {
         String capabilities = "ReAct · Plan · Tools · Memory · MCP";
         String state = mcp + " · " + skills + " · ReAct";
         List<String> lines = new ArrayList<>(List.of(
-                "   " + AnsiStyle.section("[OP]") + "    " + AnsiStyle.emphasis("OpsPilot") + "  " + AnsiStyle.subtle("v" + VERSION),
-                "           " + AnsiStyle.subtle("研发运维智能体 · Coding & Research"),
+                "   " + AnsiStyle.section("[CC]") + "    " + AnsiStyle.emphasis("CodeCLI") + "  " + AnsiStyle.subtle("v" + VERSION),
+                "           " + AnsiStyle.subtle("本地代码助手 · Local Coding Agent"),
                 "           " + AnsiStyle.subtle(ready),
                 "           " + AnsiStyle.subtle(state),
                 "           " + AnsiStyle.subtle(capabilities),

@@ -80,7 +80,7 @@ final class PaiCliCompleter implements Completer {
             candidates.add(new Candidate(
                     value,
                     hint.display(),
-                    "OpsPilot 命令",
+                    "CodeCLI 命令",
                     hint.description(),
                     null,
                     null,

@@ -12,7 +12,7 @@
 ## 环境
 
 - 启用内置 `web-access`、`better-harness`
-- 项目级 `.paicli/skills/code-review/SKILL.md`（按 `docs/articles/paicli-skill-system.md` 第 10 节的示例），已 `/skill trust code-review`
+- 项目级 `.paicli/skills/code-review/SKILL.md`（按 `docs/articles/codecli-skill-system.md` 第 10 节的示例），已 `/skill trust code-review`
 - 每条在新会话中执行（`/clear`），ReAct 模式
 
 ## 条目

@@ -1,0 +1,405 @@
+{
+  "date": "2026-11-09",
+  "timezone": "Asia/Shanghai",
+  "environment": {
+    "jdk": "Windows Microsoft OpenJDK 17.0.15",
+    "maven": "3.9.9",
+    "invocation": "Windows java.exe + Maven classworlds launcher from WSL; offline cached dependencies"
+  },
+  "baseline_commit": "5ef27c311138d09bc4fdfebc10829ccade229b27",
+  "baseline_tag": "backup/pre-codecli-rename-2026-11-09",
+  "local_move": {
+    "old_workspace": "/mnt/e/obsidian/agent/项目/paicli-main",
+    "workspace": "/mnt/e/obsidian/agent/项目/codecli-main",
+    "source": "/mnt/e/obsidian/agent/项目/codecli-main/codecli-main",
+    "old_empty_workspace_locked": true
+  },
+  "focused": {
+    "before": {
+      "command": "mvn -o test -DskipTests=false -Dtest=MainInputNormalizationTest,CliCommandParserTest,ProjectMemoryInitializerTest,PromptAssemblerTest,SkillBuiltinExtractorTest,PlainRendererTest,LanternaRendererTest,BrowserGuardTest,PaiCliCompleterTest",
+      "launcher": "Windows JVM with Maven classworlds launcher",
+      "exit_code": 0,
+      "elapsed_seconds": 36.82,
+      "suites": [
+        {
+          "name": "com.paicli.cli.MainInputNormalizationTest",
+          "tests": "34",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.CliCommandParserTest",
+          "tests": "57",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.ProjectMemoryInitializerTest",
+          "tests": "4",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.prompt.PromptAssemblerTest",
+          "tests": "12",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.skill.SkillBuiltinExtractorTest",
+          "tests": "5",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.render.PlainRendererTest",
+          "tests": "17",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.tui.LanternaRendererTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.browser.BrowserGuardTest",
+          "tests": "13",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.PaiCliCompleterTest",
+          "tests": "17",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        }
+      ],
+      "totals": {
+        "tests": 161,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "first_after_attempt": {
+      "command": "mvn -o test -DskipTests=false -Dtest=MainInputNormalizationTest,CliCommandParserTest,ProjectMemoryInitializerTest,PromptAssemblerTest,SkillBuiltinExtractorTest,PlainRendererTest,LanternaRendererTest,BrowserGuardTest,PaiCliCompleterTest",
+      "exit_code": 1,
+      "elapsed_seconds": 10.9,
+      "suites": [
+        {
+          "name": "com.paicli.browser.BrowserGuardTest",
+          "tests": "13",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.CliCommandParserTest",
+          "tests": "57",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.MainInputNormalizationTest",
+          "tests": "34",
+          "failures": "1",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.PaiCliCompleterTest",
+          "tests": "17",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.ProjectMemoryInitializerTest",
+          "tests": "6",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.prompt.PromptAssemblerTest",
+          "tests": "12",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.render.PlainRendererTest",
+          "tests": "17",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.skill.SkillBuiltinExtractorTest",
+          "tests": "5",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.tui.LanternaRendererTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        }
+      ],
+      "failure_list": [
+        {
+          "class": "com.paicli.cli.MainInputNormalizationTest",
+          "method": "startupBannerUsesOpenLayoutWithoutRightBorder",
+          "kind": "failure"
+        }
+      ],
+      "totals": {
+        "tests": 163,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "after": {
+      "command": "mvn -o test -DskipTests=false -Dtest=MainInputNormalizationTest,CliCommandParserTest,ProjectMemoryInitializerTest,PromptAssemblerTest,SkillBuiltinExtractorTest,PlainRendererTest,LanternaRendererTest,BrowserGuardTest,PaiCliCompleterTest",
+      "exit_code": 0,
+      "elapsed_seconds": 34.45,
+      "suites": [
+        {
+          "name": "com.paicli.browser.BrowserGuardTest",
+          "tests": "13",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.CliCommandParserTest",
+          "tests": "57",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.MainInputNormalizationTest",
+          "tests": "34",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.PaiCliCompleterTest",
+          "tests": "17",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.cli.ProjectMemoryInitializerTest",
+          "tests": "6",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.prompt.PromptAssemblerTest",
+          "tests": "12",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.render.PlainRendererTest",
+          "tests": "17",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.skill.SkillBuiltinExtractorTest",
+          "tests": "5",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "com.paicli.tui.LanternaRendererTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        }
+      ],
+      "failure_list": [],
+      "totals": {
+        "tests": 163,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "package": {
+    "command": "mvn -o clean package -DskipTests",
+    "exit_code": 0,
+    "elapsed_seconds": 50.05
+  },
+  "jar_smoke": {
+    "version": {
+      "exit_code": 0,
+      "args": [
+        "--version"
+      ],
+      "stdout": "CodeCLI v1.0-SNAPSHOT\r\n",
+      "isolated_home": true,
+      "no_config_files_created": true
+    },
+    "help": {
+      "exit_code": 0,
+      "args": [
+        "--help"
+      ],
+      "stdout": "CodeCLI — 本地代码助手\r\nUsage: java -jar target/codecli-1.0-SNAPSHOT.jar [--help | --version]\r\nStart without arguments for interactive local coding tasks.\r\nCommands: /plan, /mode, /mcp, /memory, /context, /export, /exit\r\n",
+      "isolated_home": true,
+      "no_config_files_created": true
+    },
+    "short-help": {
+      "exit_code": 0,
+      "args": [
+        "-h"
+      ],
+      "stdout": "CodeCLI — 本地代码助手\r\nUsage: java -jar target/codecli-1.0-SNAPSHOT.jar [--help | --version]\r\nStart without arguments for interactive local coding tasks.\r\nCommands: /plan, /mode, /mcp, /memory, /context, /export, /exit\r\n",
+      "isolated_home": true,
+      "no_config_files_created": true
+    },
+    "wechat-help": {
+      "exit_code": 0,
+      "args": [
+        "wechat",
+        "--help"
+      ],
+      "stdout": "CodeCLI 微信通道：\n  java -jar target/codecli-1.0-SNAPSHOT.jar wechat setup\n  java -jar target/codecli-1.0-SNAPSHOT.jar wechat start\n  java -jar target/codecli-1.0-SNAPSHOT.jar wechat status\n  java -jar target/codecli-1.0-SNAPSHOT.jar wechat daemon start|stop|restart|status|logs\r\n",
+      "isolated_home": true
+    },
+    "interactive": {
+      "exit_code": 0,
+      "args": [],
+      "stdout": "   [CC]    CodeCLI  v1.0-SNAPSHOT\r\n           本地代码助手 · Local Coding Agent\r\n           Model hunyuan-codecli-smoke (hunyuan)\r\n           MCP not configured · 2/2 skills · ReAct\r\n           ReAct · Plan · Tools · Memory · MCP\r\n\r\nTips for getting started:\r\n1. Type / for commands and Tab completion\r\n2. Ask coding questions, edit code or run commands\r\n3. Attach context with @path or @image:\r\n\r\n[提示] 检测到 ~/.paicli/mcp.json 未配置 chrome-devtools，建议参考 README 添加浏览器 MCP server。\r\n\r\n> > /context                                                                                                              \r\n[信息] 上下文状态：\r\n📊 Context Usage   hunyuan-codecli-smoke (hunyuan)   window: 1.0M\r\n\n  [░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]  1%  (5.1k / 1.0M)\r\n\n  当前占用细分:\n    System prompt:         2.7k  ( 0.3%)  [1 条]\r\n    Tools schema:          2.3k  ( 0.2%)\r\n    Conversation:             0  ( 0.0%)  [0 条]\r\n    ─────────────────────────────────\n    合计:                  5.1k  ( 0.5%)\r\n\r\n  压缩阈值: 967.0k (96%)   距压缩还有: 961.9k\r\n  旧工具结果清理: 100.0k 触发，保留最近 3 条\n  自动压缩: 完整摘要（Session Memory 实验开关关闭）\n  MCP resources 自动索引: 开启\n  prompt cache: hunyuan-prefix-cache\n\n上下文策略: window: 1000000 | 压缩阈值: 96% (967000 tokens) | MCP resource 索引: on | prompt cache: hunyuan-prefix-cache\n短期上下文: 由当前 Agent conversationHistory 维护\n自动事实提取: 开启\n长期记忆: 0条 / 0 tokens (事实: 0, 摘要: 0, 工具结果: 0)\nToken 统计: 调用 0 次 | 总输入: 0 | 总输出: 0 | cached: 0 | 平均输入: 0 | 预算: 1000000 (可用: 996700)\r\n\r\n> > /memory                                                                                                               \r\n[信息] 记忆系统状态：\r\n上下文策略: window: 1000000 | 压缩阈值: 96% (967000 tokens) | MCP resource 索引: on | prompt cache: hunyuan-prefix-cache\n短期上下文: 由当前 Agent conversationHistory 维护\n自动事实提取: 开启\n长期记忆: 0条 / 0 tokens (事实: 0, 摘要: 0, 工具结果: 0)\nToken 统计: 调用 0 次 | 总输入: 0 | 总输出: 0 | cached: 0 | 平均输入: 0 | 预算: 1000000 (可用: 996700)\r\n   当前项目作用域: E:\\obsidian\\agent\\项目\\codecli-main\\codecli-main\\.codex\\better-harness\\codecli-rename-2026-11-09\\smoke\\interactive\\work\r\n   /memory list - 查看长期记忆\r\n   /memory search <关键词> - 搜索当前项目可见长期记忆\r\n   /memory delete <id> - 删除单条长期记忆\r\n   /memory verify <id> - 确认记忆仍然成立，刷新最后核实时间\r\n   /memory replace <id> <新事实> - 用新内容替换冲突/过时的记忆\r\n   /memory clear - 清空长期记忆\r\n   /save <事实> - 保存项目级长期记忆；/save --global <事实> 保存全局记忆\r\n   /save --force <事实> - 与已有记忆冲突时仍保留两条\r\n\r\n> > /init                                                                                                                 \r\n[完成] 已生成项目级记忆 PAI.md。\r\n   路径: E:\\obsidian\\agent\\项目\\codecli-main\\codecli-main\\.codex\\better-harness\\codecli-rename-2026-11-09\\smoke\\interactive\\work\\PAI.md\r\n   这份 PAI.md 会在后续 system prompt 的 Project Context 中注入。\n\r\n> > /exit                                                                                                                 \r\n\n[退出] 再见!\r\n",
+      "isolated_home": true,
+      "commands_sent": [
+        "/context",
+        "/memory",
+        "/init",
+        "/exit"
+      ],
+      "model_task_sent": false,
+      "dummy_credentials_only": true,
+      "configured_mcp_servers": 0,
+      "init_rule_file": "PAI.md",
+      "init_recognizes_codecli": true
+    },
+    "artifact": {
+      "path": "target/codecli-1.0-SNAPSHOT.jar",
+      "sha256": "0f8ff7eebda4c0ada631ff9c7dc5cfdb3aded2fe31082dc04c28abee973ceedf"
+    },
+    "old_brand_jars_in_target": []
+  },
+  "static_checks": {
+    "renamed_tracked_files": {
+      "docs/articles/paicli-agentbench.md": "docs/articles/codecli-agentbench.md",
+      "docs/articles/paicli-async-parallel.md": "docs/articles/codecli-async-parallel.md",
+      "docs/articles/paicli-cdp-session-reuse.md": "docs/articles/codecli-cdp-session-reuse.md",
+      "docs/articles/paicli-chrome-devtools-mcp.md": "docs/articles/codecli-chrome-devtools-mcp.md",
+      "docs/articles/paicli-go-launch.md": "docs/articles/codecli-go-launch.md",
+      "docs/articles/paicli-hitl.md": "docs/articles/codecli-hitl.md",
+      "docs/articles/paicli-image-input.md": "docs/articles/codecli-image-input.md",
+      "docs/articles/paicli-interview-agent-core.md": "docs/articles/codecli-interview-agent-core.md",
+      "docs/articles/paicli-interview-mcp.md": "docs/articles/codecli-interview-mcp.md",
+      "docs/articles/paicli-interview-memory-context.md": "docs/articles/codecli-interview-memory-context.md",
+      "docs/articles/paicli-interview-multi-model.md": "docs/articles/codecli-interview-multi-model.md",
+      "docs/articles/paicli-interview-productization.md": "docs/articles/codecli-interview-productization.md",
+      "docs/articles/paicli-interview-prompt-skill.md": "docs/articles/codecli-interview-prompt-skill.md",
+      "docs/articles/paicli-interview-tool-security.md": "docs/articles/codecli-interview-tool-security.md",
+      "docs/articles/paicli-mcp-advanced.md": "docs/articles/codecli-mcp-advanced.md",
+      "docs/articles/paicli-mcp.md": "docs/articles/codecli-mcp.md",
+      "docs/articles/paicli-multi-agent.md": "docs/articles/codecli-multi-agent.md",
+      "docs/articles/paicli-multi-model.md": "docs/articles/codecli-multi-model.md",
+      "docs/articles/paicli-python-launch.md": "docs/articles/codecli-python-launch.md",
+      "docs/articles/paicli-skill-system.md": "docs/articles/codecli-skill-system.md",
+      "docs/articles/paicli-ts-launch.md": "docs/articles/codecli-ts-launch.md",
+      "docs/articles/paicli-websearch-webfetch.md": "docs/articles/codecli-websearch-webfetch.md",
+      "docs/articles/paicli-xuexiluxian.md": "docs/articles/codecli-xuexiluxian.md",
+      "docs/paicli-agentbench-why-tutorial.md": "docs/codecli-agentbench-why-tutorial.md",
+      "img/paicli-demo-window.png": "img/codecli-demo-window.png",
+      "img/paicli-demo.png": "img/codecli-demo.png",
+      "landing/paicli-poster-1200x1600.png": "landing/codecli-poster-1200x1600.png",
+      "landing/paicli-poster-600x800.png": "landing/codecli-poster-600x800.png",
+      "poster/assets/paicli-qr.png": "poster/assets/codecli-qr.png",
+      "docs/opspilot-branding.md": "docs/codecli-branding.md"
+    },
+    "renamed_binary_assets": [
+      {
+        "from": "img/paicli-demo-window.png",
+        "to": "img/codecli-demo-window.png",
+        "sha256": "ec26358114756a62c4717717cbfa1b140cef8744d2d4a33b03160536a6f55d6a",
+        "contents_unchanged": true
+      },
+      {
+        "from": "img/paicli-demo.png",
+        "to": "img/codecli-demo.png",
+        "sha256": "e0cbd262f9a0819cd6b0b5f8646b78677ff1837be9d534864853b10540540a9a",
+        "contents_unchanged": true
+      },
+      {
+        "from": "landing/paicli-poster-1200x1600.png",
+        "to": "landing/codecli-poster-1200x1600.png",
+        "sha256": "43d3e57a15162b2e3de2d636ac5a2dd735ebb4021568405bb2c9760e0632f2f2",
+        "contents_unchanged": true
+      },
+      {
+        "from": "landing/paicli-poster-600x800.png",
+        "to": "landing/codecli-poster-600x800.png",
+        "sha256": "237719f5dfef9ce169af8157516fbae0914f2758bea6ecdb82876147542bd8b6",
+        "contents_unchanged": true
+      },
+      {
+        "from": "poster/assets/paicli-qr.png",
+        "to": "poster/assets/codecli-qr.png",
+        "sha256": "dec0ef302f17bef3e24d55302f32b594bf0767f19334a702a26a02856e897627",
+        "contents_unchanged": true
+      }
+    ],
+    "checked_renamed_local_links": 25,
+    "broken_renamed_links": [],
+    "upstream_readme_sha256": "7e74c9c96637ababfc01fa18bdef6d4e36a4b26f974d878de8618fe756abffbb"
+  },
+  "corrections": [
+    "Initial PowerShell mvn.cmd invocation failed to start Maven; counted baseline was rerun using the Windows JVM Maven launcher with fresh-report checks.",
+    "First after-change focused run had one stale [OP] banner expectation; updated it to [CC] and reran all 163 selected tests successfully.",
+    "Initial PowerShell jar wrapper produced no version output and was rejected; final smoke checks directly launch Windows java.exe with verified empty inherited API credentials."
+  ],
+  "limits": {
+    "real_model_called": false,
+    "external_mcp_started": false,
+    "real_browser_started": false,
+    "docker_or_native_agentbench_run": false,
+    "full_suite_pass_claimed": false,
+    "phase16_smoke_run_this_round": false,
+    "internal_java_packages_or_data_paths_migrated": false,
+    "private_network_deployment_verified": false
+  }
+}

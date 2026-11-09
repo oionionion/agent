@@ -8,7 +8,7 @@
 
 ## What This Is
 
-OpsPilot 是面向研发与科研任务的 Java 终端智能体，围绕代码修改、脚本执行、日志排查与构建验证组织受控任务；现有主路径为 ReAct、Plan-and-Execute、Multi-Agent。内网部署需要另行验证模型、工具和数据访问边界。
+CodeCLI 是面向本地代码仓库的 Java 终端代码助手，围绕代码检索、文件编辑、命令执行与构建验证组织受控任务；现有主路径为 ReAct、Plan-and-Execute、Multi-Agent。内网部署需要另行验证模型、工具和数据访问边界。
 
 ## Architecture
 

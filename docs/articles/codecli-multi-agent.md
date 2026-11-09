@@ -475,7 +475,7 @@ mvn clean package
 ### 启动
 
 ```bash
-java -jar target/paicli-1.0-SNAPSHOT.jar
+java -jar target/codecli-1.0-SNAPSHOT.jar
 ```
 
 启动后你会看到 PaiCLI v5.0.0 的 Banner 和提示信息。

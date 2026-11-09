@@ -67,7 +67,7 @@
 ## 同步修改
 
 - [x] 进程生命周期做完后更新 `AGENTS.md` 的“下一步”和“还没做到的”（都写着 server 断线恢复 / 自动重启没做）
-- MCP 改动按 `AGENTS.md` 的同步表一起改 HITL、AuditLog、提示词、文档、测试，以及 `docs/articles/paicli-interview-mcp.md`
+- MCP 改动按 `AGENTS.md` 的同步表一起改 HITL、AuditLog、提示词、文档、测试，以及 `docs/articles/codecli-interview-mcp.md`
 
 ## 执行顺序
 
